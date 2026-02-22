@@ -1,122 +1,85 @@
-/* ===================================================
-   Fort Breendonk – Single-Page JavaScript
-   =================================================== */
+/* ============================================================
+   Fort Breendonk — Single-Page Memorial JavaScript
+   ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* --- Mobile nav toggle --- */
+  /* ---- Mobile navigation ---- */
   const toggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (toggle && navLinks) {
     toggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-      toggle.setAttribute('aria-expanded',
-        toggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      const open = navLinks.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
     });
-    // Close mobile menu on link click
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
+    navLinks.querySelectorAll('a').forEach(a =>
+      a.addEventListener('click', () => {
         navLinks.classList.remove('open');
+        toggle.classList.remove('open');
         toggle.setAttribute('aria-expanded', 'false');
-      });
-    });
+      })
+    );
   }
 
-  /* --- Active nav highlight on scroll --- */
+  /* ---- Active nav highlight on scroll ---- */
   const sections = document.querySelectorAll('.section[id]');
-  const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+  const navAs = document.querySelectorAll('.nav-links a[href^="#"]');
 
-  function highlightNav() {
-    const scrollY = window.scrollY + 100;
-    let current = '';
-    sections.forEach(sec => {
-      if (sec.offsetTop <= scrollY) current = sec.id;
-    });
-    navAnchors.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
+  function markActive() {
+    const y = window.scrollY + 120;
+    let cur = '';
+    sections.forEach(s => { if (s.offsetTop <= y) cur = s.id; });
+    navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
   }
 
-  /* --- Header shadow on scroll --- */
+  /* ---- Header shadow ---- */
   const header = document.querySelector('.site-header');
-  function headerShadow() {
-    if (header) header.classList.toggle('scrolled', window.scrollY > 40);
-  }
+  function shadow() { if (header) header.classList.toggle('scrolled', window.scrollY > 50); }
 
-  /* --- Back-to-top button --- */
-  const btt = document.querySelector('.back-to-top');
-  function toggleBTT() {
-    if (btt) btt.classList.toggle('visible', window.scrollY > 600);
-  }
-  if (btt) {
-    btt.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  /* ---- Back-to-top ---- */
+  const btt = document.querySelector('.btt');
+  function toggleBtt() { if (btt) btt.classList.toggle('visible', window.scrollY > 700); }
+  if (btt) btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-  /* --- Combined scroll listener --- */
-  let ticking = false;
+  /* ---- Unified scroll handler ---- */
+  let tick = false;
   window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        highlightNav();
-        headerShadow();
-        toggleBTT();
-        ticking = false;
-      });
-      ticking = true;
+    if (!tick) {
+      requestAnimationFrame(() => { markActive(); shadow(); toggleBtt(); tick = false; });
+      tick = true;
     }
   }, { passive: true });
+  markActive(); shadow(); toggleBtt();
 
-  // Run once on load
-  highlightNav();
-  headerShadow();
-  toggleBTT();
-
-  /* --- Timeline accordion --- */
-  document.querySelectorAll('.tl-heading').forEach(heading => {
-    heading.addEventListener('click', () => {
-      const item = heading.closest('.tl-item');
+  /* ---- Timeline accordion ---- */
+  document.querySelectorAll('.tl-title').forEach(title => {
+    title.addEventListener('click', () => {
+      const item = title.closest('.tl-item');
       const wasOpen = item.classList.contains('open');
-      // Close all
       document.querySelectorAll('.tl-item.open').forEach(i => i.classList.remove('open'));
-      // Toggle clicked
       if (!wasOpen) item.classList.add('open');
     });
-    // Keyboard support
-    heading.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        heading.click();
-      }
+    title.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); title.click(); }
     });
   });
 
-  /* --- Scroll fade-in (IntersectionObserver) --- */
-  const fadeEls = document.querySelectorAll('.fade-in');
-  if (fadeEls.length && 'IntersectionObserver' in window) {
+  /* ---- Scroll fade-in ---- */
+  const fades = document.querySelectorAll('.fade-in');
+  if (fades.length && 'IntersectionObserver' in window) {
     const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    fadeEls.forEach(el => obs.observe(el));
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    fades.forEach(el => obs.observe(el));
   } else {
-    // Fallback: show everything
-    fadeEls.forEach(el => el.classList.add('visible'));
+    fades.forEach(el => el.classList.add('visible'));
   }
 
-  /* --- Smooth scroll for anchor links --- */
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', e => {
-      const target = document.querySelector(anchor.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
-        history.pushState(null, '', anchor.getAttribute('href'));
-      }
+  /* ---- Smooth anchor scrolling ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); history.pushState(null, '', a.getAttribute('href')); }
     });
   });
 

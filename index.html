@@ -3,122 +3,351 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fort Breendonk – A Place of Silence, Suffering and Remembrance</title>
-  <meta name="description" content="An educational website about Fort Breendonk, a World War II Nazi prison camp in Belgium. Explore the history, personal stories, and lasting lessons of this memorial site.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <title>Fort Breendonk – Digital Memorial Exhibition</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#111418;
+      --section:#1a1f26;
+      --accent:#2f3e50;
+      --text:#e5e7ea;
+      --muted:#9aa3ad;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Inter', sans-serif;
+      line-height:1.7;
+    }
+
+    nav{
+      position:fixed;
+      width:100%;
+      background:rgba(17,20,24,0.95);
+      backdrop-filter:blur(6px);
+      padding:15px 40px;
+      z-index:1000;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #222;
+    }
+
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      margin-left:25px;
+      font-size:0.9rem;
+      transition:0.3s;
+    }
+
+    nav a:hover{
+      color:var(--text);
+    }
+
+    section{
+      padding:100px 10%;
+      min-height:100vh;
+    }
+
+    h1,h2,h3{
+      font-family:'Playfair Display', serif;
+      margin-bottom:20px;
+    }
+
+    h1{font-size:2.8rem;}
+    h2{font-size:2rem;}
+    h3{font-size:1.3rem;color:var(--muted);}
+
+    .hero{
+      background:url('https://upload.wikimedia.org/wikipedia/commons/3/39/Fort_Breendonk.jpg') center/cover no-repeat;
+      position:relative;
+      display:flex;
+      align-items:center;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,0.75);
+    }
+
+    .hero-content{
+      position:relative;
+      max-width:800px;
+    }
+
+    .section-dark{
+      background:var(--section);
+    }
+
+    .content-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:40px;
+    }
+
+    .timeline{
+      border-left:2px solid var(--accent);
+      padding-left:30px;
+    }
+
+    .timeline-item{
+      margin-bottom:40px;
+      cursor:pointer;
+    }
+
+    .timeline-item h3{
+      margin-bottom:10px;
+    }
+
+    .timeline-content{
+      display:none;
+      color:var(--muted);
+    }
+
+    .timeline-item.active .timeline-content{
+      display:block;
+    }
+
+    blockquote{
+      border-left:3px solid var(--accent);
+      padding-left:20px;
+      color:var(--muted);
+      margin-top:20px;
+    }
+
+    footer{
+      padding:60px 10%;
+      background:#0d0f13;
+      font-size:0.85rem;
+      color:var(--muted);
+    }
+
+    @media(max-width:768px){
+      nav{flex-direction:column;}
+      nav div{margin-top:10px;}
+    }
+  </style>
 </head>
+
 <body>
 
-  <!-- Navigation -->
-  <header class="site-header">
-    <nav class="nav-inner">
-      <a href="index.html" class="nav-brand">Fort Breendonk</a>
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="history.html">Historic Context</a></li>
-        <li><a href="timeline.html">Timeline</a></li>
-        <li><a href="reflections.html">Personal Reflections</a></li>
-        <li><a href="future.html">Looking to the Future</a></li>
-        <li><a href="sources.html">Sources</a></li>
-      </ul>
-    </nav>
-  </header>
+<nav>
+  <div>Fort Breendonk Memorial</div>
+  <div>
+    <a href="#hero">Hero</a>
+    <a href="#context">Historic Context</a>
+    <a href="#daily">Daily Life</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#reflection">Reflection</a>
+    <a href="#future">Future</a>
+    <a href="#sources">Sources</a>
+  </div>
+</nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-bg" style="background-image: url('images/fort-breendonk-exterior.jpg'); background-color: #1a1a1f;"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <h1>Fort Breendonk</h1>
-      <p class="hero-subtitle">A Place of Silence, Suffering and Remembrance</p>
-      <div class="img-placeholder" style="aspect-ratio:21/9; margin-bottom: var(--space-md); background: rgba(42,42,51,0.7); border-color: rgba(58,58,68,0.5);">
-        [ Photograph: Exterior view of Fort Breendonk — the grey fortress surrounded by its moat, under an overcast Belgian sky ]
+<section id="hero" class="hero">
+  <div class="hero-content">
+    <h1>Fort Breendonk – A Place of Silence, Suffering and Remembrance</h1>
+    <p>
+      Originally constructed around 1906 as part of Belgium’s national defensive ring, Fort Breendonk was designed to protect the nation from military invasion. Its thick concrete walls, moats, and artillery positions symbolized security and national defense.
+    </p>
+    <p>
+      Yet in May 1940, following the German invasion and occupation of Belgium, this defensive structure was transformed into a prison camp administered by the Sicherheitspolizei and Sicherheitsdienst (SIPO-SD / CIPO SD). What had once been a symbol of protection became a site of detention, humiliation, torture, and death.
+    </p>
+    <p>
+      This digital memorial exhibition combines historical research, personal reflection, and ethical consideration. It seeks not only to document the past, but to confront the human consequences of authority abused and dignity denied.
+    </p>
+  </div>
+</section>
+
+<section id="context" class="section-dark">
+  <h2>Historic Context</h2>
+
+  <div class="content-grid">
+
+    <div>
+      <h3>Construction and Military Origins (1906)</h3>
+      <p>
+        Built around 1906 near Antwerp, Fort Breendonk formed part of Belgium’s strategic defensive system. It was engineered to withstand heavy artillery and protect the nation’s neutrality.
+      </p>
+    </div>
+
+    <div>
+      <h3>German Occupation (1940)</h3>
+      <p>
+        In May 1940, Nazi Germany invaded Belgium. The fort was seized and repurposed as a detention and transit camp. Administration fell under the authority of the Sicherheitspolizei and Sicherheitsdienst.
+      </p>
+    </div>
+
+    <div>
+      <h3>Prisoners</h3>
+      <p>
+        Those imprisoned included resistance members, political detainees, and Jewish prisoners housed in separate barracks. Small resistance groups, including members connected to networks such as Mansi Defensi, were detained here.
+      </p>
+    </div>
+
+    <div>
+      <h3>Individuals</h3>
+      <p>
+        Among documented prisoners were Walter Obling (30th registered prisoner), François Vanderveld, Paul Hermans, and Oskar Hoffman, a blacksmith granted limited privileges. Camp authorities included SS lieutenant Braus, a Flemish SS member named Adolf, and the camp doctor Adolf Singer.
+      </p>
+    </div>
+
+    <div>
+      <h3>Executions and Burial</h3>
+      <p>
+        Executed prisoners were transported to the National Shooting Range for burial. After the war, memorial urns were placed to commemorate victims and preserve their names in collective memory.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section id="daily">
+  <h2>Daily Life in the Camp</h2>
+
+  <div class="content-grid">
+
+    <div>
+      <h3>Control and Surveillance</h3>
+      <p>
+        Prisoners were counted four times per day. Movement was restricted, and communication tightly controlled. A blue sack was sometimes placed over prisoners’ heads to prevent recognition and deepen humiliation.
+      </p>
+    </div>
+
+    <div>
+      <h3>Food and Physical Conditions</h3>
+      <p>
+        Rations were minimal: roasted acorns served as a coffee substitute, accompanied by two slices of coarse war bread. Sanitary conditions were degrading. Small toilets were later replaced by a large barrel used simultaneously by twelve prisoners.
+      </p>
+    </div>
+
+    <div>
+      <h3>Violence and Torture</h3>
+      <p>
+        Systematic torture was common. Bullets were considered “too expensive,” leading to prolonged suffering rather than immediate execution. Physical abuse and psychological degradation were routine instruments of control.
+      </p>
+    </div>
+
+    <div>
+      <h3>Hierarchy and Privilege</h3>
+      <p>
+        Certain prisoners, such as skilled workers, received limited privileges. Oskar Hoffman, for example, was allowed to work as a blacksmith. Meanwhile, even the camp dog, Lump, appeared better nourished than many detainees — a stark contrast highlighting systemic dehumanization.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<section id="timeline" class="section-dark">
+  <h2>Interactive Timeline</h2>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <h3>1906 – Construction of the Fort</h3>
+      <div class="timeline-content">
+        <p>The fort was completed as part of Belgium’s defensive network.</p>
+        <p><em>Designed for protection, it would later confine rather than defend.</em></p>
       </div>
     </div>
-  </section>
 
-  <!-- Introduction -->
-  <main class="content-wrapper">
-
-    <section class="fade-in">
-      <p>
-        Some places carry a weight that cannot be measured. Fort Breendonk, a military fortification in the province of Antwerp, Belgium, is one of those places. Between 1940 and 1944, under German occupation, this fort was transformed into a detention and transit camp where prisoners endured systematic humiliation, forced labour, torture, and death. Today, it stands as one of the best-preserved sites of Nazi repression in Western Europe — a place where the concrete walls still seem to hold the silence of those who suffered within them.
-      </p>
-    </section>
-
-    <section class="fade-in">
-      <p>
-        Walking through the dark corridors of Breendonk is not an ordinary experience. It demands something from the visitor — a willingness to confront the reality of what human beings are capable of doing to one another when power goes unchecked and dignity is stripped away. The fort does not speak loudly; it whispers through its barracks, its cells, its execution grounds. And in that quiet, we are compelled to listen.
-      </p>
-    </section>
-
-    <section class="fade-in">
-      <p>
-        This website is an educational resource dedicated to preserving the memory of Fort Breendonk and the people who were imprisoned there. It offers a historically grounded overview of the fort's origins, its role during the Second World War, the individuals whose lives were shaped — or ended — within its walls, and the lessons that remain urgently relevant today.
-      </p>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <section class="fade-in">
-      <h2>What You Will Discover</h2>
-      <p>
-        This website is structured to guide you through the history, the human experience, and the enduring significance of Fort Breendonk. Each section approaches the subject from a different perspective:
-      </p>
-
-      <div class="card fade-in">
-        <h3>Historic Context</h3>
-        <p>A factual, detailed account of the fort's construction, its wartime function under the Sicherheitspolizei and Sicherheitsdienst, the conditions endured by prisoners, and the individuals — both victims and perpetrators — who defined its history.</p>
+    <div class="timeline-item">
+      <h3>1940 – German Occupation</h3>
+      <div class="timeline-content">
+        <p>Belgium was invaded and occupied by Nazi Germany.</p>
+        <p><em>Military conquest opened the door to systematic repression.</em></p>
       </div>
+    </div>
 
-      <div class="card fade-in">
-        <h3>Interactive Timeline</h3>
-        <p>A visual chronological journey through the key events of Fort Breendonk's history, from its construction in 1906 through the German occupation, liberation, and its transformation into a national memorial.</p>
+    <div class="timeline-item">
+      <h3>First Prisoners Arrive</h3>
+      <div class="timeline-content">
+        <p>Political detainees and resistance members were imprisoned.</p>
+        <p><em>The fort’s silence began to carry the weight of suffering.</em></p>
       </div>
+    </div>
 
-      <div class="card fade-in">
-        <h3>Personal Reflections</h3>
-        <p>A first-person account of visiting the fort — the emotional weight of witnessing the conditions, the moral complexities, and the importance of discomfort in learning about history's darkest chapters.</p>
+    <div class="timeline-item">
+      <h3>Camp Operations and Abuse</h3>
+      <div class="timeline-content">
+        <p>The camp functioned under SIPO-SD control, marked by forced labor and torture.</p>
+        <p><em>Authority became detached from morality.</em></p>
       </div>
+    </div>
 
-      <div class="card fade-in">
-        <h3>Looking to the Future</h3>
-        <p>A forward-looking reflection on why remembrance matters, what Breendonk teaches us about human dignity and democracy, and how these lessons must be carried into the future.</p>
+    <div class="timeline-item">
+      <h3>Liberation and Memorialization</h3>
+      <div class="timeline-content">
+        <p>After liberation, the fort was preserved as a national memorial.</p>
+        <p><em>Memory replaced silence.</em></p>
       </div>
+    </div>
 
-      <div class="card fade-in">
-        <h3>Sources</h3>
-        <p>A curated list of academic and institutional sources for further reading and research.</p>
-      </div>
-    </section>
+  </div>
+</section>
 
-    <div class="section-divider"></div>
+<section id="reflection">
+  <h2>Personal Reflections</h2>
 
-    <!-- Navigation Buttons -->
-    <section class="text-center fade-in">
-      <h2>Explore the Website</h2>
-      <div class="btn-group">
-        <a href="history.html" class="btn">Historic Context</a>
-        <a href="timeline.html" class="btn">Interactive Timeline</a>
-        <a href="reflections.html" class="btn">Personal Reflections</a>
-        <a href="future.html" class="btn">Looking to the Future</a>
-        <a href="sources.html" class="btn">Sources</a>
-      </div>
-    </section>
+  <p>
+    When I visited Fort Breendonk, the atmosphere felt heavy even in silence. The thick concrete corridors seemed to absorb sound, as if the walls themselves were witnesses. Walking through the courtyard, I was struck not by visible violence, but by absence — an emptiness that suggested lives interrupted.
+  </p>
 
-  </main>
+  <p>
+    Learning about the sanitary barrel shared by twelve prisoners and the blue sacks placed over detainees’ heads forced me to confront humiliation as a deliberate strategy. The repeated roll calls were not administrative routine; they were ritualized domination.
+  </p>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <p>Fort Breendonk Memorial Website — An Educational Project</p>
-    <p>This website is intended for educational purposes. All historical information has been compiled with care and respect for the victims.</p>
-  </footer>
+  <p>
+    The idea that torture was preferred over execution because bullets were “too expensive” unsettled me deeply. It revealed a system in which efficiency outweighed humanity. I began to reflect on obedience and authority: how ordinary individuals become instruments of cruelty when structures normalize it.
+  </p>
 
-  <script src="js/main.js"></script>
+  <p>
+    This visit challenged my understanding of historical education. Discomfort, I realized, is not a failure of learning but evidence of engagement. I left with a stronger awareness that democracy and human dignity require vigilance.
+  </p>
+</section>
+
+<section id="future" class="section-dark">
+  <h2>Looking to the Future</h2>
+
+  <p>
+    Remembrance is not passive recollection; it is an ethical act. Fort Breendonk reminds us that democratic institutions can collapse under extremism and authoritarian control. Human dignity can be stripped away gradually, through bureaucratic decisions and normalized cruelty.
+  </p>
+
+  <p>
+    Society has developed stronger legal protections for human rights since 1945. Yet intolerance, radicalization, and dehumanizing rhetoric still exist. The lessons of Breendonk remain relevant wherever fear and hatred are politicized.
+  </p>
+
+  <p>
+    To remember is to accept responsibility. Awareness must lead to action: defending democratic values, resisting discrimination, and recognizing the humanity of others. Only through conscious vigilance can places of suffering become foundations for a more just future.
+  </p>
+</section>
+
+<footer id="sources">
+  <h2>Sources</h2>
+  <p>• Official Fort Breendonk Memorial Museum website</p>
+  <p>• Belgian WWII historical archives</p>
+  <p>• Academic publications on Nazi occupation in Belgium</p>
+</footer>
+
+<script>
+  document.querySelectorAll(".timeline-item").forEach(item=>{
+    item.addEventListener("click",()=>{
+      item.classList.toggle("active");
+    });
+  });
+</script>
+
 </body>
 </html>

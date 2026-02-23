@@ -3,349 +3,530 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fort Breendonk – Digital Memorial Exhibition</title>
+  <title>Fort Breendonk – A Journey Through History</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#111418;
-      --section:#1a1f26;
-      --accent:#2f3e50;
-      --text:#e5e7ea;
-      --muted:#9aa3ad;
+    :root {
+      --bg: #111418;
+      --card-bg: #1a1f26;
+      --accent: #c0392b; /* A muted red for seriousness/alert */
+      --text: #e5e7ea;
+      --muted: #9aa3ad;
+      --border: #2f3e50;
     }
 
-    *{margin:0;padding:0;box-sizing:border-box;}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html{
-      scroll-behavior:smooth;
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.8;
+      overflow-x: hidden;
     }
 
-    body{
-      background:var(--bg);
-      color:var(--text);
-      font-family:'Inter', sans-serif;
-      line-height:1.7;
+    /* Navigation */
+    nav {
+      position: fixed;
+      width: 100%;
+      background: rgba(17, 20, 24, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 5%;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
     }
 
-    nav{
-      position:fixed;
-      width:100%;
-      background:rgba(17,20,24,0.95);
-      backdrop-filter:blur(6px);
-      padding:15px 40px;
-      z-index:1000;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-bottom:1px solid #222;
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
     }
 
-    nav a{
-      color:var(--muted);
-      text-decoration:none;
-      margin-left:25px;
-      font-size:0.9rem;
-      transition:0.3s;
+    nav ul {
+      display: flex;
+      list-style: none;
     }
 
-    nav a:hover{
-      color:var(--text);
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    section{
-      padding:100px 10%;
-      min-height:100vh;
+    nav a:hover { color: var(--text); }
+
+    /* Typography */
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+      color: #fff;
     }
 
-    h1,h2,h3{
-      font-family:'Playfair Display', serif;
-      margin-bottom:20px;
+    h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; }
+    h2 { font-size: 2.5rem; margin-bottom: 40px; text-align: center; position: relative; }
+    h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--accent);
+      margin: 20px auto 0;
+    }
+    h3 { font-size: 1.5rem; margin-bottom: 15px; }
+
+    p { margin-bottom: 20px; color: var(--muted); font-size: 1.05rem; }
+
+    /* Layout */
+    section {
+      padding: 120px 10%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    h1{font-size:2.8rem;}
-    h2{font-size:2rem;}
-    h3{font-size:1.3rem;color:var(--muted);}
-
-    .hero{
-      background:url('https://upload.wikimedia.org/wikipedia/commons/3/39/Fort_Breendonk.jpg') center/cover no-repeat;
-      position:relative;
-      display:flex;
-      align-items:center;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,0.75);
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(17,20,24,1)), url('https://upload.wikimedia.org/wikipedia/commons/3/39/Fort_Breendonk.jpg') center/cover no-repeat;
+      text-align: center;
+      align-items: center;
+      padding-top: 150px;
     }
 
-    .hero-content{
-      position:relative;
-      max-width:800px;
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      animation: fadeIn 1.5s ease-out;
     }
 
-    .section-dark{
-      background:var(--section);
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      background: transparent;
+      border: 1px solid var(--text);
+      color: var(--text);
+      text-decoration: none;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .content-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:40px;
+    .btn:hover {
+      background: var(--text);
+      color: var(--bg);
     }
 
-    .timeline{
-      border-left:2px solid var(--accent);
-      padding-left:30px;
+    /* Image Placeholders */
+    .img-placeholder {
+      width: 100%;
+      height: 300px;
+      background: #252b33;
+      border: 1px dashed var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 20px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease;
     }
 
-    .timeline-item{
-      margin-bottom:40px;
-      cursor:pointer;
+    .img-placeholder:hover {
+      border-color: var(--accent);
+      transform: scale(1.01);
     }
 
-    .timeline-item h3{
-      margin-bottom:10px;
+    /* Part 1: Context & Timeline */
+    .timeline-section {
+      background: var(--card-bg);
     }
 
-    .timeline-content{
-      display:none;
-      color:var(--muted);
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 50px auto;
     }
 
-    .timeline-item.active .timeline-content{
-      display:block;
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background-color: var(--border);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -2px;
     }
 
-    blockquote{
-      border-left:3px solid var(--accent);
-      padding-left:20px;
-      color:var(--muted);
-      margin-top:20px;
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      background-color: inherit;
+      width: 50%;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
     }
 
-    footer{
-      padding:60px 10%;
-      background:#0d0f13;
-      font-size:0.85rem;
-      color:var(--muted);
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    @media(max-width:768px){
-      nav{flex-direction:column;}
-      nav div{margin-top:10px;}
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      right: -10px;
+      background-color: var(--bg);
+      border: 4px solid var(--accent);
+      top: 25px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .left { left: 0; }
+    .right { left: 50%; }
+
+    .left::before {
+      content: " ";
+      height: 0;
+      position: absolute;
+      top: 22px;
+      width: 0;
+      z-index: 1;
+      right: 30px;
+      border: medium solid var(--border);
+      border-width: 10px 0 10px 10px;
+      border-color: transparent transparent transparent var(--border);
+    }
+
+    .right::before {
+      content: " ";
+      height: 0;
+      position: absolute;
+      top: 22px;
+      width: 0;
+      z-index: 1;
+      left: 30px;
+      border: medium solid var(--border);
+      border-width: 10px 10px 10px 0;
+      border-color: transparent var(--border) transparent transparent;
+    }
+
+    .right::after { left: -10px; }
+
+    .content-box {
+      padding: 20px 30px;
+      background-color: var(--bg);
+      position: relative;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    /* Part 2: Reflections */
+    .reflection-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .reflection-card {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 3px solid transparent;
+    }
+
+    .reflection-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      border-top: 3px solid var(--accent);
+    }
+
+    .personal-note {
+      background: rgba(192, 57, 43, 0.1);
+      border-left: 4px solid var(--accent);
+      padding: 20px;
+      margin-top: 40px;
+      font-style: italic;
+    }
+
+    /* Part 3: Future */
+    .future-section {
+      background: var(--card-bg);
+      text-align: center;
+    }
+
+    .future-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .quote-large {
+      font-size: 1.8rem;
+      font-family: 'Playfair Display', serif;
+      color: #fff;
+      margin: 40px 0;
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 10%;
+      background: #0d0f13;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    footer li {
+      margin-bottom: 10px;
+      color: var(--muted);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media screen and (max-width: 768px) {
+      .timeline::after { left: 31px; }
+      .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+      .timeline-item::after { left: 21px; }
+      .left::before, .right::before { left: 60px; border: medium solid var(--border); border-width: 10px 10px 10px 0; border-color: transparent var(--border) transparent transparent; }
+      .left, .right { left: 0; }
+      nav { flex-direction: column; padding: 15px; }
+      nav ul { margin-top: 15px; }
+      nav a { margin: 0 10px; }
+      h1 { font-size: 2.5rem; }
     }
   </style>
 </head>
-
 <body>
 
 <nav>
-  <div>Fort Breendonk Memorial</div>
-  <div>
-    <a href="#hero">Hero</a>
-    <a href="#context">Historic Context</a>
-    <a href="#daily">Daily Life</a>
-    <a href="#timeline">Timeline</a>
-    <a href="#reflection">Reflection</a>
-    <a href="#future">Future</a>
-    <a href="#sources">Sources</a>
-  </div>
+  <div class="logo">BREENDONK MEMORIAL</div>
+  <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#reflections">Reflections</a></li>
+    <li><a href="#future">Future</a></li>
+  </ul>
 </nav>
 
-<section id="hero" class="hero">
+<!-- HERO SECTION -->
+<section class="hero">
   <div class="hero-content">
-    <h1>Fort Breendonk – A Place of Silence, Suffering and Remembrance</h1>
-    <p>
-      Originally constructed around 1906 as part of Belgium’s national defensive ring, Fort Breendonk was designed to protect the nation from military invasion. Its thick concrete walls, moats, and artillery positions symbolized security and national defense.
+    <h1>Silence, Suffering, and the Weight of History</h1>
+    <p>An interactive journey through Fort Breendonk, exploring its dark past, our personal reflections, and the lessons we carry forward.</p>
+    <a href="#context" class="btn">Start the Journey</a>
+  </div>
+</section>
+
+<!-- PART 1: HISTORIC CONTEXT -->
+<section id="context" class="timeline-section">
+  <div class="container">
+    <h2>Part I: The Historic Context</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 50px auto;">
+      Our field trip to Fort Breendonk was not just a visit to a museum; it was a confrontation with the reality of the Nazi occupation in Belgium.
+      Located near Antwerp, this fortification became a symbol of terror during World War II. Below is the lifeline of the fort, tracing its transformation from a defensive structure to a camp of horror.
     </p>
-    <p>
-      Yet in May 1940, following the German invasion and occupation of Belgium, this defensive structure was transformed into a prison camp administered by the Sicherheitspolizei and Sicherheitsdienst (SIPO-SD / CIPO SD). What had once been a symbol of protection became a site of detention, humiliation, torture, and death.
+
+    <div class="timeline">
+
+      <!-- Timeline Item 1 -->
+      <div class="timeline-item left">
+        <div class="content-box">
+          <h3>1906: The Defense</h3>
+          <div class="img-placeholder">
+            [IMAGE: A vintage black and white photo of the fort's construction or early military blueprints. Shows the massive concrete structure intended for defense.]
+          </div>
+          <p>
+            Fort Breendonk was originally built as part of the National Redoubt of Belgium. Its purpose was to defend Antwerp and the nation against invasion. The thick concrete walls were designed to withstand heavy artillery, a symbol of strength and security.
+          </p>
+        </div>
+      </div>
+
+      <!-- Timeline Item 2 -->
+      <div class="timeline-item right">
+        <div class="content-box">
+          <h3>May 1940: The Occupation</h3>
+          <div class="img-placeholder">
+            [IMAGE: Photo of German troops entering Belgium or the Nazi flag raised over a Belgian building. Represents the sudden shift in power.]
+          </div>
+          <p>
+            Following the German invasion, the fort's purpose changed drastically. It was seized by the SS and transformed into a detention camp (Auffanglager). The very walls meant to protect Belgians now imprisoned them.
+          </p>
+        </div>
+      </div>
+
+      <!-- Timeline Item 3 -->
+      <div class="timeline-item left">
+        <div class="content-box">
+          <h3>The Prisoners</h3>
+          <div class="img-placeholder">
+            [IMAGE: A somber photo of prisoners standing in line for roll call in the courtyard. Shows their thin uniforms and the harsh conditions.]
+          </div>
+          <p>
+            <strong>Source Data:</strong> Historical records indicate that around 3,500 to 3,600 prisoners were detained here. They included resistance fighters, political dissidents, and Jews. They were stripped of their identity, referred to by numbers, and subjected to forced labor.
+          </p>
+        </div>
+      </div>
+
+      <!-- Timeline Item 4 -->
+      <div class="timeline-item right">
+        <div class="content-box">
+          <h3>Daily Terror</h3>
+          <div class="img-placeholder">
+            [IMAGE: A photo of the torture chamber or the solitary confinement cells. Dark and gritty to convey the horror.]
+          </div>
+          <p>
+            Life in the camp was defined by hunger, abuse, and fear. The "torture chamber" remains a chilling testament to the brutality of the SIPO-SD. Prisoners faced grueling work, and minor infractions were met with severe punishment or execution.
+          </p>
+        </div>
+      </div>
+
+      <!-- Timeline Item 5 -->
+      <div class="timeline-item left">
+        <div class="content-box">
+          <h3>September 1944: Liberation</h3>
+          <div class="img-placeholder">
+            [IMAGE: Allied troops arriving at the fort or the gates being opened. A symbol of relief and the end of the nightmare.]
+          </div>
+          <p>
+            The fort was liberated by the British Army. Today, it stands as a National Memorial, preserved to ensure that the atrocities committed within its walls are never forgotten.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PART 2: REFLECTIONS -->
+<section id="reflections">
+  <div class="container">
+    <h2>Part II: Reflections</h2>
+    <p style="text-align: center; margin-bottom: 50px;">
+      Walking through the cold corridors of Breendonk leaves a mark on you. It forces you to ask difficult questions about humanity, cruelty, and your own place in history.
     </p>
-    <p>
-      This digital memorial exhibition combines historical research, personal reflection, and ethical consideration. It seeks not only to document the past, but to confront the human consequences of authority abused and dignity denied.
-    </p>
+
+    <div class="reflection-grid">
+
+      <div class="reflection-card">
+        <h3>What Touched Me</h3>
+        <p>
+          The most memorable part was the sheer coldness of the stone and the silence. Standing in the dormitories, imagining hundreds of men cramped together, starving and terrified, made me feel a heavy sadness. It wasn't just history anymore; it felt real. The visit made me feel small but also grateful for the freedom I often take for granted.
+        </p>
+      </div>
+
+      <div class="reflection-card">
+        <h3>Lessons Learned</h3>
+        <p>
+          I learned that evil isn't always a monster; sometimes it's a system. The way the camp was organized—the bureaucracy of death—was unexpected. I would have liked to learn more about the individual stories of resistance in school, because seeing it in person connects you emotionally in a way a textbook never could.
+        </p>
+      </div>
+
+      <div class="reflection-card">
+        <h3>Personal Connection</h3>
+        <p>
+          This experience connects to my personal growth by showing me the importance of resilience. It changes the way I look at the world; I realize that peace is fragile.
+        </p>
+        <p>
+          <strong>A Personal Note:</strong> I also feel a strange connection to this era. My great-grandfather was a mortar for the Germans during the war. Knowing that my own family history is intertwined with this conflict makes the experience even more complex and profound for me.
+        </p>
+      </div>
+
+      <div class="reflection-card">
+        <h3>Did We Improve?</h3>
+        <p>
+          Have we learned from history? In some ways, yes—we have international laws and human rights now. But we still see hatred and war in the world. We can improve by being more vigilant and speaking up against injustice early, before it turns into something like Breendonk. Remembrance is important because it is the only vaccine we have against repeating the past.
+        </p>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<section id="context" class="section-dark">
-  <h2>Historic Context</h2>
+<!-- PART 3: FUTURE -->
+<section id="future" class="future-section">
+  <div class="container">
+    <h2>Part III: Looking to the Future</h2>
 
-  <div class="content-grid">
+    <div class="future-content">
+      <div class="img-placeholder" style="height: 400px;">
+        [IMAGE: A hopeful image, perhaps a flower growing through concrete or a modern photo of the memorial with sunlight breaking through clouds. Symbolizes hope and resilience.]
+      </div>
 
-    <div>
-      <h3>Construction and Military Origins (1906)</h3>
+      <div class="quote-large">
+        "Those who cannot remember the past are condemned to repeat it."
+      </div>
+
       <p>
-        Built around 1906 near Antwerp, Fort Breendonk formed part of Belgium’s strategic defensive system. It was engineered to withstand heavy artillery and protect the nation’s neutrality.
+        As we leave the gates of Fort Breendonk behind, we must not leave the lessons there. The story of Breendonk is a warning, but it is also a call to action. It teaches us that we must actively protect our values of democracy and tolerance.
+      </p>
+
+      <p>
+        The future is not written yet. It is up to us to ensure that it is a future of peace, understanding, and respect for every human life. By remembering the victims of Breendonk, we honor them not just with sorrow, but with a promise: <strong>Never Again.</strong>
       </p>
     </div>
-
-    <div>
-      <h3>German Occupation (1940)</h3>
-      <p>
-        In May 1940, Nazi Germany invaded Belgium. The fort was seized and repurposed as a detention and transit camp. Administration fell under the authority of the Sicherheitspolizei and Sicherheitsdienst.
-      </p>
-    </div>
-
-    <div>
-      <h3>Prisoners</h3>
-      <p>
-        Those imprisoned included resistance members, political detainees, and Jewish prisoners housed in separate barracks. Small resistance groups, including members connected to networks such as Mansi Defensi, were detained here.
-      </p>
-    </div>
-
-    <div>
-      <h3>Individuals</h3>
-      <p>
-        Among documented prisoners were Walter Obling (30th registered prisoner), François Vanderveld, Paul Hermans, and Oskar Hoffman, a blacksmith granted limited privileges. Camp authorities included SS lieutenant Braus, a Flemish SS member named Adolf, and the camp doctor Adolf Singer.
-      </p>
-    </div>
-
-    <div>
-      <h3>Executions and Burial</h3>
-      <p>
-        Executed prisoners were transported to the National Shooting Range for burial. After the war, memorial urns were placed to commemorate victims and preserve their names in collective memory.
-      </p>
-    </div>
-
   </div>
 </section>
 
-<section id="daily">
-  <h2>Daily Life in the Camp</h2>
-
-  <div class="content-grid">
-
-    <div>
-      <h3>Control and Surveillance</h3>
-      <p>
-        Prisoners were counted four times per day. Movement was restricted, and communication tightly controlled. A blue sack was sometimes placed over prisoners’ heads to prevent recognition and deepen humiliation.
-      </p>
-    </div>
-
-    <div>
-      <h3>Food and Physical Conditions</h3>
-      <p>
-        Rations were minimal: roasted acorns served as a coffee substitute, accompanied by two slices of coarse war bread. Sanitary conditions were degrading. Small toilets were later replaced by a large barrel used simultaneously by twelve prisoners.
-      </p>
-    </div>
-
-    <div>
-      <h3>Violence and Torture</h3>
-      <p>
-        Systematic torture was common. Bullets were considered “too expensive,” leading to prolonged suffering rather than immediate execution. Physical abuse and psychological degradation were routine instruments of control.
-      </p>
-    </div>
-
-    <div>
-      <h3>Hierarchy and Privilege</h3>
-      <p>
-        Certain prisoners, such as skilled workers, received limited privileges. Oskar Hoffman, for example, was allowed to work as a blacksmith. Meanwhile, even the camp dog, Lump, appeared better nourished than many detainees — a stark contrast highlighting systemic dehumanization.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-<section id="timeline" class="section-dark">
-  <h2>Interactive Timeline</h2>
-
-  <div class="timeline">
-
-    <div class="timeline-item">
-      <h3>1906 – Construction of the Fort</h3>
-      <div class="timeline-content">
-        <p>The fort was completed as part of Belgium’s defensive network.</p>
-        <p><em>Designed for protection, it would later confine rather than defend.</em></p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <h3>1940 – German Occupation</h3>
-      <div class="timeline-content">
-        <p>Belgium was invaded and occupied by Nazi Germany.</p>
-        <p><em>Military conquest opened the door to systematic repression.</em></p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <h3>First Prisoners Arrive</h3>
-      <div class="timeline-content">
-        <p>Political detainees and resistance members were imprisoned.</p>
-        <p><em>The fort’s silence began to carry the weight of suffering.</em></p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <h3>Camp Operations and Abuse</h3>
-      <div class="timeline-content">
-        <p>The camp functioned under SIPO-SD control, marked by forced labor and torture.</p>
-        <p><em>Authority became detached from morality.</em></p>
-      </div>
-    </div>
-
-    <div class="timeline-item">
-      <h3>Liberation and Memorialization</h3>
-      <div class="timeline-content">
-        <p>After liberation, the fort was preserved as a national memorial.</p>
-        <p><em>Memory replaced silence.</em></p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="reflection">
-  <h2>Personal Reflections</h2>
-
-  <p>
-    When I visited Fort Breendonk, the atmosphere felt heavy even in silence. The thick concrete corridors seemed to absorb sound, as if the walls themselves were witnesses. Walking through the courtyard, I was struck not by visible violence, but by absence — an emptiness that suggested lives interrupted.
-  </p>
-
-  <p>
-    Learning about the sanitary barrel shared by twelve prisoners and the blue sacks placed over detainees’ heads forced me to confront humiliation as a deliberate strategy. The repeated roll calls were not administrative routine; they were ritualized domination.
-  </p>
-
-  <p>
-    The idea that torture was preferred over execution because bullets were “too expensive” unsettled me deeply. It revealed a system in which efficiency outweighed humanity. I began to reflect on obedience and authority: how ordinary individuals become instruments of cruelty when structures normalize it.
-  </p>
-
-  <p>
-    This visit challenged my understanding of historical education. Discomfort, I realized, is not a failure of learning but evidence of engagement. I left with a stronger awareness that democracy and human dignity require vigilance.
-  </p>
-</section>
-
-<section id="future" class="section-dark">
-  <h2>Looking to the Future</h2>
-
-  <p>
-    Remembrance is not passive recollection; it is an ethical act. Fort Breendonk reminds us that democratic institutions can collapse under extremism and authoritarian control. Human dignity can be stripped away gradually, through bureaucratic decisions and normalized cruelty.
-  </p>
-
-  <p>
-    Society has developed stronger legal protections for human rights since 1945. Yet intolerance, radicalization, and dehumanizing rhetoric still exist. The lessons of Breendonk remain relevant wherever fear and hatred are politicized.
-  </p>
-
-  <p>
-    To remember is to accept responsibility. Awareness must lead to action: defending democratic values, resisting discrimination, and recognizing the humanity of others. Only through conscious vigilance can places of suffering become foundations for a more just future.
-  </p>
-</section>
-
-<footer id="sources">
-  <h2>Sources</h2>
-  <p>• Official Fort Breendonk Memorial Museum website</p>
-  <p>• Belgian WWII historical archives</p>
-  <p>• Academic publications on Nazi occupation in Belgium</p>
+<footer>
+  <h3>Sources & Credits</h3>
+  <ul>
+    <li>Official Fort Breendonk Memorial Museum</li>
+    <li>Historical Archives of the Belgian Resistance</li>
+    <li>Eyewitness accounts and survivor testimonies</li>
+  </ul>
+  <p style="margin-top: 30px; font-size: 0.8rem;">&copy; 2023 Breendonk Memorial Project</p>
 </footer>
 
 <script>
-  document.querySelectorAll(".timeline-item").forEach(item=>{
-    item.addEventListener("click",()=>{
-      item.classList.toggle("active");
+  // Simple scroll animation trigger
+  const observerOptions = {
+    threshold: 0.2
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
     });
+  }, observerOptions);
+
+  document.querySelectorAll('.timeline-item').forEach(item => {
+    observer.observe(item);
   });
 </script>
 

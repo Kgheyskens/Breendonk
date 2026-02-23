@@ -156,36 +156,45 @@
       transform: scale(1.01);
     }
 
-    /* Part 1: Context & Timeline */
+    /* --- TIMELINE CSS --- */
     .timeline-section {
       background: var(--card-bg);
     }
 
     .timeline {
       position: relative;
-      max-width: 1000px;
-      margin: 50px auto;
+      max-width: 1100px;
+      margin: 60px auto 20px;
+      padding: 20px 0;
     }
 
-    .timeline::after {
+    /* The vertical line — gradient from accent to muted */
+    .timeline::before {
       content: '';
       position: absolute;
-      width: 4px;
-      background-color: var(--border);
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--accent) 8%,
+        var(--border) 50%,
+        var(--accent) 92%,
+        transparent 100%
+      );
       top: 0;
       bottom: 0;
       left: 50%;
-      margin-left: -2px;
+      transform: translateX(-50%);
+      z-index: 0;
     }
 
     .timeline-item {
-      padding: 10px 40px;
+      padding: 10px 60px;
       position: relative;
-      background-color: inherit;
       width: 50%;
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .timeline-item.visible {
@@ -193,86 +202,197 @@
       transform: translateY(0);
     }
 
+    /* Dot — positioned via left:100% on .left items so it always sits on the center line */
     .timeline-item::after {
       content: '';
       position: absolute;
       width: 20px;
       height: 20px;
-      right: -10px;
-      background-color: var(--bg);
-      border: 4px solid var(--accent);
-      top: 25px;
+      left: 100%;
+      top: 38px;
+      transform: translateX(-50%);
+      background: var(--card-bg);
+      border: 2px solid var(--accent);
       border-radius: 50%;
-      z-index: 1;
+      z-index: 3;
+      /* inner gap + outer soft ring, all via box-shadow so border-radius is respected */
+      box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px rgba(192, 57, 43, 0.3);
+      transition: background 0.3s, box-shadow 0.3s;
     }
 
-    .left { left: 0; }
+    .timeline-item:hover::after {
+      background: var(--accent);
+      box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 7px rgba(192, 57, 43, 0.25);
+    }
+
+    .timeline-item.visible::after {
+      animation: dotPulse 1.8s ease-out 0.5s 1;
+    }
+
+    @keyframes dotPulse {
+      0%   { box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px rgba(192,57,43,0.3); }
+      55%  { box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 14px rgba(192,57,43,0); }
+      100% { box-shadow: 0 0 0 3px var(--card-bg), 0 0 0 5px rgba(192,57,43,0.3); }
+    }
+
+    /* Left & right positioning */
+    .left  { left: 0; }
     .right { left: 50%; }
 
-    .left::before {
-      content: " ";
-      height: 0;
-      position: absolute;
-      top: 22px;
-      width: 0;
-      z-index: 1;
-      right: 30px;
-      border: medium solid var(--border);
-      border-width: 10px 0 10px 10px;
-      border-color: transparent transparent transparent var(--border);
+    /* .right items: dot sits at left:0, same transform centers it on the line */
+    .right::after { left: 0; }
+
+    /* Year label above each card */
+    .timeline-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
     }
 
-    .right::before {
-      content: " ";
-      height: 0;
-      position: absolute;
-      top: 22px;
-      width: 0;
-      z-index: 1;
-      left: 30px;
-      border: medium solid var(--border);
-      border-width: 10px 10px 10px 0;
-      border-color: transparent var(--border) transparent transparent;
-    }
-
-    .right::after { left: -10px; }
-
+    /* Content Box */
     .content-box {
-      padding: 20px 30px;
-      background-color: var(--bg);
+      padding: 28px 32px;
+      background: #14191f;
       position: relative;
       border-radius: 4px;
       border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .content-box:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border-color: rgba(192, 57, 43, 0.5);
+    }
+
+    .content-box h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Connector arrow */
+    .left .content-box::after {
+      content: '';
+      position: absolute;
+      top: 38px;
+      right: -8px;
+      width: 8px;
+      height: 8px;
+      background: var(--border);
+      transform: rotate(45deg);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+
+    .right .content-box::after {
+      content: '';
+      position: absolute;
+      top: 38px;
+      left: -8px;
+      width: 8px;
+      height: 8px;
+      background: var(--border);
+      transform: rotate(225deg);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
     }
 
     /* Part 2: Reflections */
+    .reflections-section {
+      background: var(--bg);
+    }
+
+    .reflections-intro {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 60px;
+    }
+
+    .reflections-intro p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+    }
+
     .reflection-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
-      margin-top: 40px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      margin-bottom: 40px;
     }
 
     .reflection-card {
       background: var(--card-bg);
-      padding: 30px;
-      border-radius: 8px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border-top: 3px solid transparent;
+      padding: 36px 32px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      border-bottom: 3px solid transparent;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+      display: flex;
+      flex-direction: column;
     }
 
     .reflection-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      border-top: 3px solid var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+      border-bottom-color: var(--accent);
     }
 
-    .personal-note {
-      background: rgba(192, 57, 43, 0.1);
+    .reflection-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 14px;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+
+    .reflection-card p {
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 0;
+      flex-grow: 1;
+    }
+
+    .reflection-card p + p {
+      margin-top: 14px;
+    }
+
+    .personal-note-block {
+      background: #14191f;
+      border: 1px solid var(--border);
       border-left: 4px solid var(--accent);
-      padding: 20px;
-      margin-top: 40px;
+      border-radius: 4px;
+      padding: 32px 36px;
+      margin-top: 8px;
+    }
+
+    .personal-note-block .note-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .personal-note-block p {
+      font-size: 1rem;
+      line-height: 1.85;
       font-style: italic;
+      margin: 0;
+      color: var(--text);
+    }
+
+    @media screen and (max-width: 768px) {
+      .reflection-grid { grid-template-columns: 1fr; }
+      .personal-note-block { flex-direction: column; gap: 12px; }
     }
 
     /* Part 3: Future */
@@ -317,13 +437,32 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsive */
+    /* Responsive Timeline */
     @media screen and (max-width: 768px) {
-      .timeline::after { left: 31px; }
-      .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
-      .timeline-item::after { left: 21px; }
-      .left::before, .right::before { left: 60px; border: medium solid var(--border); border-width: 10px 10px 10px 0; border-color: transparent var(--border) transparent transparent; }
-      .left, .right { left: 0; }
+      .timeline::before { left: 24px; transform: none; }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 60px;
+        padding-right: 20px;
+      }
+
+      .timeline-item::after,
+      .right::after {
+        left: 24px;
+        transform: translateX(-50%);
+        top: 32px;
+      }
+
+      .right { left: 0; }
+
+      .left .content-box::after,
+      .right .content-box::after {
+        left: -8px;
+        right: auto;
+        transform: rotate(225deg);
+      }
+
       nav { flex-direction: column; padding: 15px; }
       nav ul { margin-top: 15px; }
       nav a { margin: 0 10px; }
@@ -354,9 +493,9 @@
 <!-- PART 1: HISTORIC CONTEXT -->
 <section id="context" class="timeline-section">
   <div class="container">
-    <h2>Part I: The Historic Context</h2>
+    <h2>The History of Breendonk</h2>
     <p style="text-align: center; max-width: 800px; margin: 0 auto 50px auto;">
-      Our field trip to Fort Breendonk was not just a visit to a museum; it was a confrontation with the reality of the Nazi occupation in Belgium.
+      Our field trip to Fort Breendonk was not just a visit to a museum, it was a confrontation with the reality of the Nazi occupation in Belgium.
       Located near Antwerp, this fortification became a symbol of terror during World War II. Below is the lifeline of the fort, tracing its transformation from a defensive structure to a camp of horror.
     </p>
 
@@ -365,7 +504,8 @@
       <!-- Timeline Item 1 -->
       <div class="timeline-item left">
         <div class="content-box">
-          <h3>1906: The Defense</h3>
+          <span class="timeline-year">1906</span>
+          <h3>The Defense</h3>
           <div class="img-placeholder">
             [IMAGE: A vintage black and white photo of the fort's construction or early military blueprints. Shows the massive concrete structure intended for defense.]
           </div>
@@ -378,7 +518,8 @@
       <!-- Timeline Item 2 -->
       <div class="timeline-item right">
         <div class="content-box">
-          <h3>May 1940: The Occupation</h3>
+          <span class="timeline-year">May 1940</span>
+          <h3>The Occupation</h3>
           <div class="img-placeholder">
             [IMAGE: Photo of German troops entering Belgium or the Nazi flag raised over a Belgian building. Represents the sudden shift in power.]
           </div>
@@ -391,6 +532,7 @@
       <!-- Timeline Item 3 -->
       <div class="timeline-item left">
         <div class="content-box">
+          <span class="timeline-year">1940 – 1944</span>
           <h3>The Prisoners</h3>
           <div class="img-placeholder">
             [IMAGE: A somber photo of prisoners standing in line for roll call in the courtyard. Shows their thin uniforms and the harsh conditions.]
@@ -404,7 +546,8 @@
       <!-- Timeline Item 4 -->
       <div class="timeline-item right">
         <div class="content-box">
-          <h3>Daily Terror</h3>
+          <span class="timeline-year">Daily Life, 1940 – 1944</span>
+          <h3>Terror & Torture</h3>
           <div class="img-placeholder">
             [IMAGE: A photo of the torture chamber or the solitary confinement cells. Dark and gritty to convey the horror.]
           </div>
@@ -417,7 +560,8 @@
       <!-- Timeline Item 5 -->
       <div class="timeline-item left">
         <div class="content-box">
-          <h3>September 1944: Liberation</h3>
+          <span class="timeline-year">September 1944</span>
+          <h3>Liberation</h3>
           <div class="img-placeholder">
             [IMAGE: Allied troops arriving at the fort or the gates being opened. A symbol of relief and the end of the nightmare.]
           </div>
@@ -432,12 +576,15 @@
 </section>
 
 <!-- PART 2: REFLECTIONS -->
-<section id="reflections">
+<section id="reflections" class="reflections-section">
   <div class="container">
     <h2>Part II: Reflections</h2>
-    <p style="text-align: center; margin-bottom: 50px;">
-      Walking through the cold corridors of Breendonk leaves a mark on you. It forces you to ask difficult questions about humanity, cruelty, and your own place in history.
-    </p>
+
+    <div class="reflections-intro">
+      <p>
+        Walking through the cold corridors of Breendonk leaves a mark on you. It forces you to ask difficult questions about humanity, cruelty, and your own place in history.
+      </p>
+    </div>
 
     <div class="reflection-grid">
 
@@ -451,28 +598,36 @@
       <div class="reflection-card">
         <h3>Lessons Learned</h3>
         <p>
-          I learned that evil isn't always a monster; sometimes it's a system. The way the camp was organized—the bureaucracy of death—was unexpected. I would have liked to learn more about the individual stories of resistance in school, because seeing it in person connects you emotionally in a way a textbook never could.
+          I learned that evil isn't always a monster; sometimes it's a system. The way the camp was organized — the bureaucracy of death — was unexpected. I would have liked to learn more about the individual stories of resistance in school, because seeing it in person connects you emotionally in a way a textbook never could.
         </p>
       </div>
 
       <div class="reflection-card">
         <h3>Personal Connection</h3>
         <p>
-          This experience connects to my personal growth by showing me the importance of resilience. It changes the way I look at the world; I realize that peace is fragile.
-        </p>
-        <p>
-          <strong>A Personal Note:</strong> I also feel a strange connection to this era. My great-grandfather was a mortar for the Germans during the war. Knowing that my own family history is intertwined with this conflict makes the experience even more complex and profound for me.
+          This experience connects to my personal growth by showing me the importance of resilience. It changes the way I look at the world — I realize that peace is fragile, and it demands constant vigilance from each of us.
         </p>
       </div>
 
       <div class="reflection-card">
         <h3>Did We Improve?</h3>
         <p>
-          Have we learned from history? In some ways, yes—we have international laws and human rights now. But we still see hatred and war in the world. We can improve by being more vigilant and speaking up against injustice early, before it turns into something like Breendonk. Remembrance is important because it is the only vaccine we have against repeating the past.
+          Have we learned from history? In some ways, yes — we have international laws and human rights now. But we still see hatred and war in the world. We can improve by being more vigilant and speaking up against injustice early, before it turns into something like Breendonk. Remembrance is the only vaccine we have against repeating the past.
         </p>
       </div>
 
     </div>
+
+    <div class="personal-note-block">
+      <span class="note-icon" style="display:none"></span>
+      <div>
+        <span class="note-label">A Personal Note</span>
+        <p>
+          I also feel a strange connection to this era. My great-grandfather served for the Germans during the war. Knowing that my own family history is intertwined with this conflict makes the experience even more complex and profound for me — a reminder that history is never purely distant, but lives on in the people we come from.
+        </p>
+      </div>
+    </div>
+
   </div>
 </section>
 

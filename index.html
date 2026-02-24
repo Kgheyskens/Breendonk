@@ -537,7 +537,7 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 3px;
       user-select: none;
-      transition: background 0.3s, border-color 0.3s;
+      transition: background 0.3s, border-color 0.3s, opacity 0.3s;
       z-index: 10;
     }
 
@@ -1132,8 +1132,8 @@
       </div>
 
       <!-- Controls -->
-      <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
-      <button class="next" onclick="changeSlide(1)">&#10095;</button>
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
       <div class="carousel-counter" id="carouselCounter">1 / 20</div>
       <div class="carousel-progress" id="carouselProgress"></div>
     </div>
@@ -1259,8 +1259,10 @@
     startAuto();
   }
 
-  // Pause on hover / touch
+  // Pause on hover (desktop only)
   const carouselContainer = document.querySelector(".carousel-container");
+  const prevBtn = carouselContainer.querySelector(".prev");
+  const nextBtn = carouselContainer.querySelector(".next");
 
   function pauseCarousel() {
     isPaused = true;
@@ -1278,9 +1280,68 @@
   carouselContainer.addEventListener("mouseenter", pauseCarousel);
   carouselContainer.addEventListener("mouseleave", resumeCarousel);
 
-  // Touch support
-  carouselContainer.addEventListener("touchstart", pauseCarousel, {passive: true});
-  carouselContainer.addEventListener("touchend", resumeCarousel);
+  // ── Mobile tap-to-reveal description ──────────────────────────────
+  let descOpen = false;
+
+  function isMobile() {
+    return window.matchMedia("(max-width: 768px)").matches;
+  }
+
+  function openDescription() {
+    descOpen = true;
+    pauseCarousel();
+    // Show description on current active slide
+    const activeSlide = document.querySelector(".carousel-slide.active");
+    if (activeSlide) activeSlide.querySelector(".carousel-description").style.opacity = "1";
+    const activeImg = activeSlide && activeSlide.querySelector(".img-placeholder img");
+    if (activeImg) activeImg.style.opacity = "0.25";
+    // Hide nav buttons
+    prevBtn.style.opacity = "0";
+    prevBtn.style.pointerEvents = "none";
+    nextBtn.style.opacity = "0";
+    nextBtn.style.pointerEvents = "none";
+  }
+
+  function closeDescription() {
+    descOpen = false;
+    const activeSlide = document.querySelector(".carousel-slide.active");
+    if (activeSlide) activeSlide.querySelector(".carousel-description").style.opacity = "0";
+    const activeImg = activeSlide && activeSlide.querySelector(".img-placeholder img");
+    if (activeImg) activeImg.style.opacity = "";
+    // Show nav buttons again
+    prevBtn.style.opacity = "";
+    prevBtn.style.pointerEvents = "";
+    nextBtn.style.opacity = "";
+    nextBtn.style.pointerEvents = "";
+  }
+
+  // Tap on the image area (mobile only)
+  carouselContainer.addEventListener("click", (e) => {
+    if (!isMobile()) return;
+    // If clicking prev/next buttons, don't toggle description
+    if (e.target.closest(".prev") || e.target.closest(".next")) return;
+    if (descOpen) {
+      closeDescription();
+    } else {
+      openDescription();
+    }
+  });
+
+  // When prev/next are pressed, close description first then navigate
+  prevBtn.addEventListener("click", (e) => {
+    if (descOpen) closeDescription();
+    slideIndex--;
+    showSlides(slideIndex);
+    // Keep timer stopped after manually navigating on mobile
+    if (!isMobile()) startAuto();
+  });
+
+  nextBtn.addEventListener("click", (e) => {
+    if (descOpen) closeDescription();
+    slideIndex++;
+    showSlides(slideIndex);
+    if (!isMobile()) startAuto();
+  });
 
   // Inject descriptions from alt text
   document.querySelectorAll('.carousel-slide .img-placeholder').forEach(placeholder => {

@@ -139,16 +139,23 @@
       width: 100%;
       height: 300px;
       background: #252b33;
-      border: 1px dashed var(--muted);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--muted);
       font-style: italic;
       margin-bottom: 20px;
-      padding: 20px;
+      padding: 0; /* Remove padding */
       text-align: center;
       transition: transform 0.3s ease;
+      overflow: hidden; /* Ensure image fits */
+    }
+
+    .img-placeholder img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .img-placeholder:hover {
@@ -413,6 +420,132 @@
       margin: 40px 0;
     }
 
+    /* Part 4: Gallery Carousel */
+    .gallery-section {
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .carousel-container {
+      position: relative;
+      max-width: 900px;
+      margin: 40px auto;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .carousel-slide {
+      display: none;
+      animation: fade 1.5s;
+    }
+
+    .carousel-slide.active {
+      display: block;
+    }
+
+    .carousel-slide .img-placeholder {
+      height: 500px;
+      margin-bottom: 0;
+      border: none;
+      background: #1a1f26;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .carousel-caption {
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 15px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+    }
+
+    /* Carousel Controls */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 14px 18px;
+      color: #fff;
+      font-size: 1rem;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      user-select: none;
+      transition: background 0.3s, border-color 0.3s;
+      z-index: 10;
+    }
+
+    .next { right: 14px; }
+    .prev { left: 14px; }
+
+    .prev:hover, .next:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* Slide counter */
+    .carousel-counter {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Inter', sans-serif;
+      z-index: 10;
+      background: rgba(0,0,0,0.4);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* Progress bar */
+    .carousel-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 10;
+      transition: width linear;
+    }
+
+    .dots-container {
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    .dot {
+      cursor: pointer;
+      height: 8px;
+      width: 8px;
+      margin: 0 5px;
+      background: var(--border);
+      border-radius: 50%;
+      display: inline-block;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .dot.active {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
+
+    .dot:hover { background: var(--muted); }
+
+    @keyframes fade {
+      from { opacity: 0.3; }
+      to   { opacity: 1; }
+    }
+
     /* Footer */
     footer {
       padding: 60px 10%;
@@ -467,6 +600,8 @@
       nav ul { margin-top: 15px; }
       nav a { margin: 0 10px; }
       h1 { font-size: 2.5rem; }
+
+      .carousel-slide .img-placeholder { height: 300px; }
     }
   </style>
 </head>
@@ -478,6 +613,7 @@
     <li><a href="#context">Context</a></li>
     <li><a href="#reflections">Reflections</a></li>
     <li><a href="#future">Future</a></li>
+    <li><a href="#gallery">Gallery</a></li>
   </ul>
 </nav>
 
@@ -507,7 +643,7 @@
           <span class="timeline-year">1906</span>
           <h3>The Defense</h3>
           <div class="img-placeholder">
-            [IMAGE: A vintage black and white photo of the fort's construction or early military blueprints. Shows the massive concrete structure intended for defense.]
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Breendonk_fort_luchtfoto_1920.jpg" alt="A vintage black and white photo of the fort's construction or early military blueprints. Shows the massive concrete structure intended for defense.">
           </div>
           <p>
             Fort Breendonk was originally built as part of the National Redoubt of Belgium. Its purpose was to defend Antwerp and the nation against invasion. The thick concrete walls were designed to withstand heavy artillery, a symbol of strength and security.
@@ -521,7 +657,7 @@
           <span class="timeline-year">May 1940</span>
           <h3>The Occupation</h3>
           <div class="img-placeholder">
-            [IMAGE: Photo of German troops entering Belgium or the Nazi flag raised over a Belgian building. Represents the sudden shift in power.]
+            <img src="https://www.themapleleaf.net/wp-content/uploads/2020/05/German-Soldiers-in-Belgium-May-1940-Bundesarchiv-via-Wikimedia-Commons.jpg" alt="Photo of German troops entering Belgium or the Nazi flag raised over a Belgian building. Represents the sudden shift in power.">
           </div>
           <p>
             Following the German invasion, the fort's purpose changed drastically. It was seized by the SS and transformed into a detention camp (Auffanglager). The very walls meant to protect Belgians now imprisoned them.
@@ -535,7 +671,7 @@
           <span class="timeline-year">1940 – 1944</span>
           <h3>The Prisoners</h3>
           <div class="img-placeholder">
-            [IMAGE: A somber photo of prisoners standing in line for roll call in the courtyard. Shows their thin uniforms and the harsh conditions.]
+            <img src="https://www.breendonk.be/sites/default/files/styles/large/public/2020-06/gevangenen.jpg" alt="A somber photo of prisoners standing in line for roll call in the courtyard. Shows their thin uniforms and the harsh conditions.">
           </div>
           <p>
             <strong>Source Data:</strong> Historical records indicate that around 3,500 to 3,600 prisoners were detained here. They included resistance fighters, political dissidents, and Jews. They were stripped of their identity, referred to by numbers, and subjected to forced labor.
@@ -549,7 +685,7 @@
           <span class="timeline-year">Daily Life, 1940 – 1944</span>
           <h3>Terror & Torture</h3>
           <div class="img-placeholder">
-            [IMAGE: A photo of the torture chamber or the solitary confinement cells. Dark and gritty to convey the horror.]
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Breendonk_Folterkamer.jpg/800px-Breendonk_Folterkamer.jpg" alt="A photo of the torture chamber or the solitary confinement cells. Dark and gritty to convey the horror.">
           </div>
           <p>
             Life in the camp was defined by hunger, abuse, and fear. The "torture chamber" remains a chilling testament to the brutality of the SIPO-SD. Prisoners faced grueling work, and minor infractions were met with severe punishment or execution.
@@ -563,7 +699,7 @@
           <span class="timeline-year">September 1944</span>
           <h3>Liberation</h3>
           <div class="img-placeholder">
-            [IMAGE: Allied troops arriving at the fort or the gates being opened. A symbol of relief and the end of the nightmare.]
+            <img src="https://www.liberationroute.com/storage/media/1611/0001-12010101_20191118_115019_12_belgium_antwerp_fort-breendonk_liberation-1944_liberation-of-the-camp_memorial-and-museum-of-fort-breendonk.jpg" alt="Allied troops arriving at the fort or the gates being opened. A symbol of relief and the end of the nightmare.">
           </div>
           <p>
             The fort was liberated by the British Army. Today, it stands as a National Memorial, preserved to ensure that the atrocities committed within its walls are never forgotten.
@@ -578,7 +714,7 @@
 <!-- PART 2: REFLECTIONS -->
 <section id="reflections" class="reflections-section">
   <div class="container">
-    <h2>Part II: Reflections</h2>
+    <h2>How it was</h2>
 
     <div class="reflections-intro">
       <p>
@@ -598,21 +734,21 @@
       <div class="reflection-card">
         <h3>Lessons Learned</h3>
         <p>
-          I learned that evil isn't always a monster; sometimes it's a system. The way the camp was organized — the bureaucracy of death — was unexpected. I would have liked to learn more about the individual stories of resistance in school, because seeing it in person connects you emotionally in a way a textbook never could.
+          I learned that evil isn't always a monster, sometimes it's a system. The way the camp was organized, the bureaucracy of death, was unexpected. I would have liked to learn more about the individual stories of resistance in school, because seeing it in person connects you emotionally in a way a textbook never could. Although I've visited a lot of monuments and memorials from the WOII times I didn't really expect what I've seen here.
         </p>
       </div>
 
       <div class="reflection-card">
         <h3>Personal Connection</h3>
         <p>
-          This experience connects to my personal growth by showing me the importance of resilience. It changes the way I look at the world — I realize that peace is fragile, and it demands constant vigilance from each of us.
+          This experience connects to my personal growth by showing me the importance of resilience. It changes the way I look at the world and I realize that peace is fragile, and it demands constant vigilance from each of us. It also shows me that the freedom we have now and the luxuery of these times makes us slowly forget what people, back in the days, had to go through.
         </p>
       </div>
 
       <div class="reflection-card">
         <h3>Did We Improve?</h3>
         <p>
-          Have we learned from history? In some ways, yes — we have international laws and human rights now. But we still see hatred and war in the world. We can improve by being more vigilant and speaking up against injustice early, before it turns into something like Breendonk. Remembrance is the only vaccine we have against repeating the past.
+          Have we learned from history? In some ways, yes... we have international laws and human rights now. But we still see hatred and war in the world. We could improve by being more vigilant and speaking up against injustice early, before it turns into something like Breendonk or even just WOII. Remembrance is the only vaccine we have against repeating the past and remembering the ones we've lost.
         </p>
       </div>
 
@@ -621,9 +757,9 @@
     <div class="personal-note-block">
       <span class="note-icon" style="display:none"></span>
       <div>
-        <span class="note-label">A Personal Note</span>
+        <span class="note-label">A personal touch</span>
         <p>
-          I also feel a strange connection to this era. My great-grandfather served for the Germans during the war. Knowing that my own family history is intertwined with this conflict makes the experience even more complex and profound for me — a reminder that history is never purely distant, but lives on in the people we come from.
+          I also feel a strange connection with this. My great-grandfather served for the Germans during the war as a morter. Knowing that my own family history is intertwined with this conflict makes the experience even more complex and profound for me, for me it's more a reminder that history is never purely distant, but it lives on in the people we come from.
         </p>
       </div>
     </div>
@@ -634,11 +770,11 @@
 <!-- PART 3: FUTURE -->
 <section id="future" class="future-section">
   <div class="container">
-    <h2>Part III: Looking to the Future</h2>
+    <h2>A view in the Future</h2>
 
     <div class="future-content">
       <div class="img-placeholder" style="height: 400px;">
-        [IMAGE: A hopeful image, perhaps a flower growing through concrete or a modern photo of the memorial with sunlight breaking through clouds. Symbolizes hope and resilience.]
+        <img src="images/pexels-maarten-ceulemans-1837879676-35007530.jpg" alt="A hopeful image, perhaps a flower growing through concrete or a modern photo of the memorial with sunlight breaking through clouds. Symbolizes hope and resilience.">
       </div>
 
       <div class="quote-large">
@@ -656,14 +792,141 @@
   </div>
 </section>
 
+<!-- PART 4: GALLERY -->
+<section id="gallery" class="gallery-section">
+  <div class="container">
+    <h2>Part IV: Photo Gallery</h2>
+    <p style="text-align: center; margin-bottom: 40px;">
+      A collection of images capturing the atmosphere, the architecture, and the memory of Fort Breendonk.
+    </p>
+
+    <div class="carousel-container">
+
+      <!-- Specific Landmarks (Internet Images for Accuracy) -->
+      <div class="carousel-slide active">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 06.53.42.jpeg" alt="The entrance bridge and gate of the fort"></div>
+        <div class="carousel-caption">The Entrance Bridge</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.31.56.jpeg" alt="The dark, narrow corridors inside the fort"></div>
+        <div class="carousel-caption">The Corridors of Silence</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.02.jpeg" alt="The sleeping quarters with wooden bunks"></div>
+        <div class="carousel-caption">Prisoner Dormitories</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.04.jpeg" alt="The execution grounds with the posts"></div>
+        <div class="carousel-caption">The Execution Grounds</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.05.jpeg" alt="The memorial room with urns or names"></div>
+        <div class="carousel-caption">Room of Remembrance</div>
+      </div>
+
+      <!-- User's Local Images (Generic Captions) -->
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.06.jpeg" alt="A cell in the bunker"></div>
+        <div class="carousel-caption">A Cell in the Bunker</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 06.53.42 (1).jpeg" alt="The moat surrounding the fort"></div>
+        <div class="carousel-caption">The Surrounding Moat</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 06.53.42 (2).jpeg" alt="The entrance to the fort"></div>
+        <div class="carousel-caption">The Entrance to the Fort</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 06.53.42 (3).jpeg" alt="The outer walls of the fort"></div>
+        <div class="carousel-caption">The Outer Walls</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 06.53.42 (4).jpeg" alt="A view of the fort from a distance"></div>
+        <div class="carousel-caption">A View from a Distance</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.04 (2).jpeg" alt="Interior view"></div>
+        <div class="carousel-caption">Interior View</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.04 (3).jpeg" alt="Historical artifacts"></div>
+        <div class="carousel-caption">Historical Artifacts</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.05 (1).jpeg" alt="A memorial plaque"></div>
+        <div class="carousel-caption">A Memorial Plaque</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.05 (2).jpeg" alt="Names of victims"></div>
+        <div class="carousel-caption">Names of Victims</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.05 (3).jpeg" alt="Hallway view"></div>
+        <div class="carousel-caption">Hallway View</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/WhatsApp Image 2026-02-24 at 09.32.05 (4).jpeg" alt="Courtyard view"></div>
+        <div class="carousel-caption">Courtyard View</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/pexels-maarten-ceulemans-1837879676-34988339.jpg" alt="Barbed wire detail"></div>
+        <div class="carousel-caption">Barbed Wire Detail</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/pexels-maarten-ceulemans-1837879676-34988348.jpg" alt="Watchtower view"></div>
+        <div class="carousel-caption">Watchtower View</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/pexels-maarten-ceulemans-1837879676-35007797.jpg" alt="Reflection in water"></div>
+        <div class="carousel-caption">Reflection in Water</div>
+      </div>
+
+      <div class="carousel-slide">
+        <div class="img-placeholder"><img src="images/pexels-maarten-ceulemans-1837879676-35007804.jpg" alt="Nature reclaiming the site"></div>
+        <div class="carousel-caption">Nature Reclaiming the Site</div>
+      </div>
+
+      <!-- Controls -->
+      <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+      <button class="next" onclick="changeSlide(1)">&#10095;</button>
+      <div class="carousel-counter" id="carouselCounter">1 / 20</div>
+      <div class="carousel-progress" id="carouselProgress"></div>
+    </div>
+
+    <div class="dots-container"></div>
+
+  </div>
+</section>
+
 <footer>
   <h3>Sources & Credits</h3>
   <ul>
-    <li>Official Fort Breendonk Memorial Museum</li>
-    <li>Historical Archives of the Belgian Resistance</li>
-    <li>Eyewitness accounts and survivor testimonies</li>
+    <li><a href="https://breendonk.be/nl" style="text-decoration: none; color:#c0392b">Official Fort Breendonk Memorial Museum</a></li>
+    <li><a href="https://data.arch.be/?lang=nl" style="text-decoration: none; color:#c0392b">Historical Archives of the Belgian Resistance</a></li>
+    <li><a href="https://fortbreendonk.be/nl/educatief-aanbod-getuigenissen" style="text-decoration: none; color:#c0392b">Eyewitness accounts and survivor testimonies</a></li>
+    <li><a href="https://www.ushmm.org/remember/holocaust-reflections-testimonies/eyewitness-to-history" style="text-decoration: none; color:#c0392b">The holocaust and what it was for them</a></li>
   </ul>
-  <p style="margin-top: 30px; font-size: 0.8rem;">&copy; 2023 Breendonk Memorial Project</p>
+  <p style="margin-top: 30px; font-size: 0.8rem;">KgWorks - Kayn Gheyskens</p>
+  <p style="font-size: 0.8rem;">&copy; 2026 Breendonk Memorial Project</p>
+
 </footer>
 
 <script>
@@ -683,6 +946,100 @@
   document.querySelectorAll('.timeline-item').forEach(item => {
     observer.observe(item);
   });
+
+  // Carousel Logic
+  const INTERVAL = 5000; // ms between auto-advances
+  let slideIndex = 1;
+  let autoTimer = null;
+  let progressTimer = null;
+
+  const slides   = document.getElementsByClassName("carousel-slide");
+  const counter  = document.getElementById("carouselCounter");
+  const progress = document.getElementById("carouselProgress");
+  const dotsWrap = document.querySelector(".dots-container") || (() => {
+    const d = document.createElement("div");
+    d.className = "dots-container";
+    document.getElementById("gallery").querySelector(".container").appendChild(d);
+    return d;
+  })();
+
+  // Build dots dynamically so adding a slide only requires adding a <div class="carousel-slide">
+  function buildDots() {
+    dotsWrap.innerHTML = "";
+    for (let i = 0; i < slides.length; i++) {
+      const dot = document.createElement("span");
+      dot.className = "dot" + (i === 0 ? " active" : "");
+      dot.addEventListener("click", () => setSlide(i + 1));
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function showSlides(n) {
+    if (n > slides.length) slideIndex = 1;
+    if (n < 1) slideIndex = slides.length;
+
+    const dots = dotsWrap.getElementsByClassName("dot");
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+      slides[i].classList.remove("active");
+    }
+    for (let i = 0; i < dots.length; i++) {
+      dots[i].classList.remove("active");
+    }
+
+    slides[slideIndex - 1].style.display = "block";
+    slides[slideIndex - 1].classList.add("active");
+    if (dots[slideIndex - 1]) dots[slideIndex - 1].classList.add("active");
+
+    counter.textContent = slideIndex + " / " + slides.length;
+    startProgress();
+  }
+
+  function startProgress() {
+    clearInterval(progressTimer);
+    progress.style.transition = "none";
+    progress.style.width = "0%";
+    // Force reflow so the reset takes effect before animating
+    progress.offsetWidth;
+    progress.style.transition = "width " + INTERVAL + "ms linear";
+    progress.style.width = "100%";
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      slideIndex++;
+      showSlides(slideIndex);
+    }, INTERVAL);
+  }
+
+  function changeSlide(n) {
+    slideIndex += n;
+    showSlides(slideIndex);
+    startAuto(); // reset timer on manual nav
+  }
+
+  function setSlide(n) {
+    slideIndex = n;
+    showSlides(slideIndex);
+    startAuto();
+  }
+
+  // Pause on hover
+  const carouselContainer = document.querySelector(".carousel-container");
+  carouselContainer.addEventListener("mouseenter", () => {
+    clearInterval(autoTimer);
+    clearInterval(progressTimer);
+    progress.style.transition = "none";
+  });
+  carouselContainer.addEventListener("mouseleave", () => {
+    startAuto();
+    startProgress();
+  });
+
+  buildDots();
+  showSlides(slideIndex);
+  startAuto();
 </script>
 
 </body>

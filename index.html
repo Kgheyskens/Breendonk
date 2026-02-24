@@ -33,9 +33,9 @@
     nav {
       position: fixed;
       width: 100%;
-      background: rgba(17, 20, 24, 0.95);
+      background: rgba(17, 20, 24, 0.97);
       backdrop-filter: blur(10px);
-      padding: 20px 5%;
+      padding: 16px 5%;
       z-index: 1000;
       display: flex;
       justify-content: space-between;
@@ -46,7 +46,7 @@
     nav .logo {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: 1px;
     }
 
@@ -58,8 +58,8 @@
     nav a {
       color: var(--muted);
       text-decoration: none;
-      margin-left: 30px;
-      font-size: 0.9rem;
+      margin-left: 24px;
+      font-size: 0.85rem;
       transition: color 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -67,14 +67,33 @@
 
     nav a:hover { color: var(--text); }
 
+    /* Hamburger menu (mobile) */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
     /* Typography */
     h1, h2, h3 {
       font-family: 'Playfair Display', serif;
       color: #fff;
     }
 
-    h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; }
-    h2 { font-size: 2.5rem; margin-bottom: 40px; text-align: center; position: relative; }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 20px; }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.5rem); margin-bottom: 40px; text-align: center; position: relative; }
     h2::after {
       content: '';
       display: block;
@@ -83,13 +102,13 @@
       background: var(--accent);
       margin: 20px auto 0;
     }
-    h3 { font-size: 1.5rem; margin-bottom: 15px; }
+    h3 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); margin-bottom: 15px; }
 
-    p { margin-bottom: 20px; color: var(--muted); font-size: 1.05rem; }
+    p { margin-bottom: 20px; color: var(--muted); font-size: clamp(0.95rem, 2vw, 1.05rem); }
 
     /* Layout */
     section {
-      padding: 120px 10%;
+      padding: 100px 6%;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -131,6 +150,15 @@
       max-width: 800px;
       margin: 0 auto;
       animation: fadeIn 1.5s ease-out;
+      padding: 0 10px;
+    }
+
+    .hero-content p {
+      color: var(--text);
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      max-width: 640px;
+      margin: 0 auto 24px;
+      opacity: 0.9;
     }
 
     .btn {
@@ -422,8 +450,12 @@
       color: var(--text);
     }
 
-    @media screen and (max-width: 768px) {
+    /* ─── Tablet & Mobile shared ───────────────────────── */
+    @media screen and (max-width: 900px) {
       .reflection-grid { grid-template-columns: 1fr; }
+    }
+
+    @media screen and (max-width: 768px) {
       .personal-note-block { flex-direction: column; gap: 12px; }
     }
 
@@ -439,10 +471,11 @@
     }
 
     .quote-large {
-      font-size: 1.8rem;
+      font-size: clamp(1.2rem, 3.5vw, 1.8rem);
       font-family: 'Playfair Display', serif;
       color: #fff;
       margin: 40px 0;
+      line-height: 1.5;
     }
 
     /* Part 4: Gallery Carousel */
@@ -604,7 +637,7 @@
 
     /* Footer */
     footer {
-      padding: 60px 10%;
+      padding: 60px 8%;
       background: #0d0f13;
       text-align: center;
       border-top: 1px solid var(--border);
@@ -616,8 +649,14 @@
     }
 
     footer li {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       color: var(--muted);
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      line-height: 1.5;
+    }
+
+    footer a {
+      word-break: break-word;
     }
 
     /* Animations */
@@ -626,38 +665,139 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Responsive Timeline */
+    /* ─── Tablet (768 – 900px) ─────────────────────────── */
+    @media screen and (max-width: 900px) {
+      nav { padding: 14px 4%; }
+      section { padding: 90px 5%; }
+      .timeline { margin-top: 40px; }
+      .content-box { padding: 22px 24px; }
+      .carousel-slide .img-placeholder { height: 380px; }
+      .future-content .img-placeholder { height: 300px !important; }
+    }
+
+    /* ─── Mobile (≤ 768px) ──────────────────────────────── */
     @media screen and (max-width: 768px) {
-      .timeline::before { left: 24px; transform: none; }
+
+      /* Nav becomes hamburger */
+      .nav-toggle { display: flex; }
+
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background: rgba(17, 20, 24, 0.98);
+        border-top: 1px solid var(--border);
+        padding: 16px 0;
+      }
+      nav ul.open { display: flex; }
+      nav ul li { width: 100%; text-align: center; }
+      nav a {
+        margin: 0;
+        display: block;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+      }
+      nav { flex-wrap: wrap; }
+
+      /* Sections */
+      section { padding: 80px 5% 60px; min-height: auto; }
+
+      /* Hero */
+      .hero { padding-top: 100px; }
+      .hero-content p { font-size: 1rem; }
+      .btn { padding: 12px 24px; font-size: 0.85rem; }
+
+      /* Timeline: full-width single column, line on the left */
+      .timeline::before {
+        left: 20px;
+        transform: none;
+      }
+
+      .timeline {
+        margin-top: 30px;
+        padding: 10px 0;
+      }
 
       .timeline-item {
         width: 100%;
-        padding-left: 60px;
-        padding-right: 20px;
+        padding-left: 52px;
+        padding-right: 10px;
       }
 
+      /* All dots on the left line */
       .timeline-item::after,
       .right::after {
-        left: 24px;
+        left: 20px;
         transform: translateX(-50%);
-        top: 32px;
+        top: 28px;
+        width: 16px;
+        height: 16px;
       }
 
+      /* Right items: reset the left offset */
       .right { left: 0; }
 
+      /* Connector arrows all point left */
       .left .content-box::after,
       .right .content-box::after {
         left: -8px;
         right: auto;
+        top: 28px;
         transform: rotate(225deg);
       }
 
-      nav { flex-direction: column; padding: 15px; }
-      nav ul { margin-top: 15px; }
-      nav a { margin: 0 10px; }
-      h1 { font-size: 2.5rem; }
+      /* Content box */
+      .content-box {
+        padding: 18px 18px;
+      }
+      .content-box h3 {
+        font-size: 1.1rem;
+      }
+      .timeline-year {
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+      }
+      .content-box p {
+        font-size: 0.95rem;
+        line-height: 1.75;
+      }
+      .img-placeholder {
+        height: 200px;
+      }
 
-      .carousel-slide .img-placeholder { height: 300px; }
+      /* Reflections */
+      .reflection-card { padding: 24px 20px; }
+      .personal-note-block { padding: 22px 20px; }
+
+      /* Quote */
+      .quote-large {
+        font-size: clamp(1.1rem, 4vw, 1.5rem);
+        margin: 28px 0;
+      }
+
+      /* Carousel */
+      .carousel-slide .img-placeholder { height: 240px; }
+      .prev, .next { padding: 10px 14px; font-size: 0.9rem; }
+      .carousel-caption { font-size: 0.9rem; padding: 10px; }
+      .carousel-description { font-size: 1rem; width: 90%; }
+
+      /* Footer */
+      footer { padding: 40px 6%; }
+    }
+
+    /* ─── Small phones (≤ 420px) ───────────────────────── */
+    @media screen and (max-width: 420px) {
+      section { padding: 70px 4% 50px; }
+      .content-box { padding: 14px 14px; }
+      .timeline-item { padding-left: 44px; padding-right: 6px; }
+      .timeline::before { left: 16px; }
+      .timeline-item::after,
+      .right::after { left: 16px; }
+      .carousel-slide .img-placeholder { height: 200px; }
+      nav .logo { font-size: 0.95rem; }
     }
   </style>
 </head>
@@ -665,11 +805,14 @@
 
 <nav>
   <div class="logo">BREENDONK MEMORIAL</div>
+  <button class="nav-toggle" aria-label="Toggle navigation" onclick="this.nextElementSibling.classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
   <ul>
-    <li><a href="#context">Context</a></li>
-    <li><a href="#reflections">Reflections</a></li>
-    <li><a href="#future">Future</a></li>
-    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#context" onclick="document.querySelector('nav ul').classList.remove('open')">Context</a></li>
+    <li><a href="#reflections" onclick="document.querySelector('nav ul').classList.remove('open')">Reflections</a></li>
+    <li><a href="#future" onclick="document.querySelector('nav ul').classList.remove('open')">Future</a></li>
+    <li><a href="#gallery" onclick="document.querySelector('nav ul').classList.remove('open')">Gallery</a></li>
   </ul>
 </nav>
 
